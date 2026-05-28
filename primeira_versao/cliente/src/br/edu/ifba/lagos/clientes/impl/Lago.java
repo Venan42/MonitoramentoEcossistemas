@@ -1,4 +1,4 @@
-package br.edu.ifba.lagos.impl;
+package br.edu.ifba.lagos.clientes.impl;
 
 public class Lago implements Comparable<Lago> {
     private int id;
@@ -9,8 +9,13 @@ public class Lago implements Comparable<Lago> {
         this.nome = nome;
     }
 
-    public int getId() { return id; }
-    public String getNome() { return nome; }
+    public int getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 
     @Override
     public String toString() {
