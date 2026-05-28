@@ -1,4 +1,4 @@
-package br.edu.ifba.lagos.impl;
+package br.edu.ifba.lagos.clientes.impl;
 
 public class Amostra implements Comparable<Amostra> {
     private Lago lago;

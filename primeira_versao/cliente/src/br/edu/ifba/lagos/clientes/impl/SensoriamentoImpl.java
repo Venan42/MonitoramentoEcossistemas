@@ -1,6 +1,6 @@
-package br.edu.ifba.lagos.impl;
+package br.edu.ifba.lagos.clientes.impl;
 
-import br.edu.ifba.lagos.sensoriamento.Sensoriamento;
+import br.edu.ifba.lagos.clientes.sensoriamento.Sensoriamento;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,8 @@ public class SensoriamentoImpl implements Sensoriamento<Amostra> {
 
     private static final double PH_NORMAL = 7; // valor de pH normal para ecossistemas de água doce
 
-    // O pH pode ter valores negativos ou maiores que 14, mas é muito raro na natureza.
+    // O pH pode ter valores negativos ou maiores que 14, mas é muito raro na
+    // natureza.
     // Para efeitos práticos, adotou-se o valor mínimo como 0 e o máximo como 14.
     private static final int VALOR_MINIMO_PH = 0;
     private static final int VALOR_MAXIMO_PH = 14;
@@ -38,8 +39,10 @@ public class SensoriamentoImpl implements Sensoriamento<Amostra> {
                 phGerado = PH_NORMAL + variacaoSimples;
             }
 
-            if (phGerado < VALOR_MINIMO_PH) phGerado = VALOR_MINIMO_PH;
-            if (phGerado > VALOR_MAXIMO_PH) phGerado = VALOR_MAXIMO_PH;
+            if (phGerado < VALOR_MINIMO_PH)
+                phGerado = VALOR_MINIMO_PH;
+            if (phGerado > VALOR_MAXIMO_PH)
+                phGerado = VALOR_MAXIMO_PH;
 
             Amostra amostra = new Amostra(lago, phGerado);
             amostras.add(amostra);
