@@ -1,4 +1,4 @@
-package br.edu.ifba.lagos.impl;
+package br.edu.ifba.lagos.servidor.impl;
 
 public class Lago implements Comparable<Lago> {
     private int id;

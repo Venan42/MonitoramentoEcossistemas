@@ -1,7 +1,8 @@
-package br.edu.ifba.lagos.impl;
+package br.edu.ifba.lagos.servidor.impl;
 
-import br.edu.ifba.lagos.ordenador.Ordenador;
-import br.edu.ifba.lagos.ordenador.TipoOrdenacao;
+import br.edu.ifba.lagos.servidor.ordenador.Ordenador;
+import br.edu.ifba.lagos.servidor.ordenador.TipoOrdenacao;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package br.edu.ifba.lagos.ordenador;
+package br.edu.ifba.lagos.servidor.ordenador;
 
 public enum TipoOrdenacao {
     POR_PH,

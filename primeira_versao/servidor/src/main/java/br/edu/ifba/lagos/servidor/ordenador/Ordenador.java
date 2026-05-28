@@ -1,4 +1,4 @@
-package br.edu.ifba.lagos.ordenador;
+package br.edu.ifba.lagos.servidor.ordenador;
 
 import java.util.List;
 
