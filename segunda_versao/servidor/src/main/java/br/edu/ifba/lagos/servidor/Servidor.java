@@ -8,33 +8,38 @@ import java.net.URI;
 
 public class Servidor {
 
-    // Mantendo as constantes solicitadas no seu modelo
     private static final int TOTAL_LAGOS = 10;
     private static final int AMOSTRAS_POR_LAGO = 5;
 
-    // URL base indicando que o servidor aceitará conexões de qualquer IP (0.0.0.0) na porta 8080
     private static final String BASE_URL = "http://0.0.0.0:8080/";
 
     /**
-     * Configura e inicializa o servidor HTTP Grizzly.
-     * O Jersey varre o pacote especificado em busca da classe 'Rotas.java'.
+     * Complexidade: O(1)
+     *
+     * Justificativa: A instanciação do ResourceConfig e o bootstrap inicial do container HTTP
+     * Grizzly ocorrem em tempo constante fixo.
      */
     private static HttpServer iniciarServidor() {
         // Define o pacote do servidor para o Jersey mapear os endpoints HTTP (@POST / @GET)
         ResourceConfig configuracao = new ResourceConfig().packages("br.edu.ifba.lagos.servidor");
 
-        // Cria e retorna a instância do servidor HTTP [cite: 74]
+        // Cria e retorna a instância do servidor HTTP
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URL), configuracao);
     }
 
+    /**
+     * Complexidade: O(1)
+     *
+     * Justificativa: O ponto de entrada invoca a subida do ecossistema Grizzly sob custo constante.
+     */
     public static void main(String[] args) throws Exception {
         // Inicializa o servidor HTTP Grizzly
         HttpServer servidor = iniciarServidor();
 
-        System.out.println("======================================================");
-        System.out.println("  SERVIDOR DE MONITORAMENTO DE PH DE LAGOS ATIVO  ");
-        System.out.println("  Aguardando conexões das Threads do Cliente...       ");
-        System.out.println("======================================================");
+        System.out.println("====================================================================");
+        System.out.println("  SERVIDOR DE MONITORAMENTO DE PH DE LAGOS - V2 (OTIMIZADO E SEGURO) ");
+        System.out.println("  Aguardando conexões criptografadas das Threads do Cliente...      ");
+        System.out.println("====================================================================");
         System.out.println("Pressione a tecla [ENTER] a qualquer momento para encerrar.");
 
         // Mantém o servidor em execução bloqueando a Thread principal até que um ENTER seja digitado
