@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
@@ -55,10 +57,21 @@ public class ClienteImpl implements Cliente<Lago, Amostra>, Runnable {
      * bytes que constituem a chave pública de tamanho fixo (1024 bits) operam em tempo constante.
      */
     private PublicKey getChave() throws Exception {
-        java.nio.file.Path diretorioPrincipal = java.nio.file.Paths.get(System.getProperty("user.dir"));
-        java.nio.file.Path caminhoChave = diretorioPrincipal.resolve(java.nio.file.Paths.get("segunda_versao", "cliente", "chave", "ch_publica.chv")).normalize();
+        Path diretorioPrincipal = Paths.get(System.getProperty("user.dir"));
 
-        File arquivo = caminhoChave.toFile();
+        // Caminho relativo padrão se o projeto for executado a partir do módulo do cliente
+        File arquivo = diretorioPrincipal.resolve(Paths.get("chave", "ch_publica.chv")).toFile();
+
+        // Caminho relativo se executado a partir da raiz do projeto geral
+        if (!arquivo.exists()) {
+            arquivo = diretorioPrincipal.resolve(Paths.get("segunda_versao", "cliente", "chave", "ch_publica.chv")).toFile();
+        }
+
+        // Se nenhum dos dois existir, um erro é lançado.
+        if (!arquivo.exists()) {
+            throw new java.io.FileNotFoundException("Chave pública não encontrada em nenhum dos caminhos mapeados.");
+        }
+
         try (FileInputStream stream = new FileInputStream(arquivo)) {
             byte[] bytes = stream.readAllBytes();
             X509EncodedKeySpec spec = new X509EncodedKeySpec(bytes);

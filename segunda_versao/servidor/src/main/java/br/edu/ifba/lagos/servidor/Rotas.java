@@ -2,6 +2,7 @@ package br.edu.ifba.lagos.servidor;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.security.InvalidKeyException;
@@ -51,39 +52,45 @@ public class Rotas {
     private PrivateKey chave = null;
 
     /**
-     * Complexidade: O(1)
-     *
-     * Justificativa: A localização do arquivo via caminhos NIO absolutos e o parsing
-     * dos bytes da chave assimétrica estática (1024 bits) operam em tempo fixo e limitado.
+     * Complexidade de Tempo: O(1)
+     * Justificativa: Localiza de forma dinâmica o arquivo da chave privada tateando
+     * o contexto de execução atual do Servidor. Se ambos falharem, lança uma exceção explicativa.
      */
-    private PrivateKey getChavePrivada() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        if (chave == null) {
-            java.nio.file.Path diretorioPrincipal = Paths.get(System.getProperty("user.dir"));
-            java.nio.file.Path caminhoChave = diretorioPrincipal.resolve(Paths.get("segunda_versao", "servidor", "chave", "ch_privada.chv")).normalize();
+    private PrivateKey getChavePrivada() throws Exception {
+        // Tentativa 1: Se o Servidor for executado diretamente de dentro do seu próprio módulo
+        File arquivo = getFile();
 
-            File arquivo = caminhoChave.toFile();
-            if (!arquivo.exists()) {
-                throw new IOException("Chave privada RSA ausente no caminho resolvido: " + arquivo.getAbsolutePath());
-            }
-
-            try (FileInputStream stream = new FileInputStream(arquivo)) {
-                byte[] bytes = stream.readAllBytes();
-                PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(bytes);
-                KeyFactory kf = KeyFactory.getInstance(ALGORITMO_DE_ENCRIPTACAO);
-                chave = kf.generatePrivate(spec);
-            }
+        // Leitura e reconstrução da chave privada a partir dos bytes do arquivo
+        try (FileInputStream stream = new FileInputStream(arquivo)) {
+            byte[] bytes = stream.readAllBytes();
+            java.security.spec.PKCS8EncodedKeySpec spec = new java.security.spec.PKCS8EncodedKeySpec(bytes);
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+            return kf.generatePrivate(spec);
         }
-        return chave;
+    }
+
+    private static File getFile() throws FileNotFoundException {
+        java.nio.file.Path diretorioPrincipal = Paths.get(System.getProperty("user.dir"));
+        File arquivo = diretorioPrincipal.resolve(Paths.get("chave", "ch_privada.chv")).toFile();
+
+        // Se o Servidor for executado a partir da raiz do projeto geral
+        if (!arquivo.exists()) {
+            arquivo =  diretorioPrincipal.resolve(Paths.get("segunda_versao", "servidor", "chave", "ch_privada.chv")).toFile();
+        }
+
+        // Se o arquivo não existir em nenhum contexto, para o processamento
+        if (!arquivo.exists()) {
+            throw new FileNotFoundException("Chave privada não encontrada em nenhum dos caminhos mapeados.");
+        }
+        return arquivo;
     }
 
     /**
      * Complexidade: O(1)
-     *
      * Justificativa: A decifração executada pela API nativa sobre blocos controlados
      * pelo algoritmo RSA possui tempo de processamento constante independente do volume do sistema.
      */
-    private String desencriptar(byte[] encriptado) throws NoSuchAlgorithmException, NoSuchPaddingException,
-            InvalidKeyException, InvalidKeySpecException, IOException, IllegalBlockSizeException, BadPaddingException {
+    private String desencriptar(byte[] encriptado) throws Exception {
         Cipher cipher = Cipher.getInstance(ALGORITMO_DE_ENCRIPTACAO);
         cipher.init(Cipher.DECRYPT_MODE, getChavePrivada());
         byte[] desencriptado = cipher.doFinal(encriptado);
@@ -98,7 +105,6 @@ public class Rotas {
 
     /**
      * Complexidade: O(Log N) onde N é o total de lagos monitorados.
-     *
      * Justificativa: As ações de decodificação Base64, decriptação assimétrica e parsing JSON
      * são lineares sobre o pacote fixo O(1). O limitador assintótico real é o método gravar()
      * que realiza inserções em árvore balanceada TreeMap O(Log N).
@@ -129,7 +135,6 @@ public class Rotas {
 
     /**
      * Complexidade: O(Log N) onde N é a quantidade de lagos cadastrados.
-     *
      * Justificativa: A extração do dado do JSON roda sob custo fixo, delegando o teto assintótico
      * para a busca e atualização do contador de trios neutros associado à chave no TreeMap O(Log N).
      */
@@ -159,7 +164,6 @@ public class Rotas {
 
     /**
      * Complexidade: O(M) onde M representa a quantidade de lagos que já computaram trios.
-     *
      * Justificativa: Invoca a consolidação global do sistema, que executa um laço linear simples
      * varrendo sequencialmente todos os valores acumulados no mapa de controle.
      */

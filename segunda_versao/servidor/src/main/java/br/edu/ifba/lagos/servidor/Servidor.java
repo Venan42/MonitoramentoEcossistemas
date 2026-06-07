@@ -15,7 +15,6 @@ public class Servidor {
 
     /**
      * Complexidade: O(1)
-     *
      * Justificativa: A instanciação do ResourceConfig e o bootstrap inicial do container HTTP
      * Grizzly ocorrem em tempo constante fixo.
      */
@@ -27,17 +26,12 @@ public class Servidor {
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URL), configuracao);
     }
 
-    /**
-     * Complexidade: O(1)
-     *
-     * Justificativa: O ponto de entrada invoca a subida do ecossistema Grizzly sob custo constante.
-     */
     public static void main(String[] args) throws Exception {
         // Inicializa o servidor HTTP Grizzly
         HttpServer servidor = iniciarServidor();
 
         System.out.println("====================================================================");
-        System.out.println("  SERVIDOR DE MONITORAMENTO DE PH DE LAGOS - V2 (OTIMIZADO E SEGURO) ");
+        System.out.println("  SERVIDOR DE MONITORAMENTO DE PH DE LAGOS - V2                     ");
         System.out.println("  Aguardando conexões criptografadas das Threads do Cliente...      ");
         System.out.println("====================================================================");
         System.out.println("Pressione a tecla [ENTER] a qualquer momento para encerrar.");
