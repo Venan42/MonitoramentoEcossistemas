@@ -1,24 +1,24 @@
 package br.edu.ifba.lagos.servidor.operacoes;
 
+import br.edu.ifba.lagos.servidor.impl.Amostra;
+import br.edu.ifba.lagos.servidor.ordenador.TipoOrdenacao;
+
 import java.util.List;
 import java.util.Map;
 
-import br.edu.ifba.lagos.servidor.ordenador.TipoOrdenacao;
-
 public interface Operacoes<Lago, Amostra> {
-
     // Método para o Servidor receber dados do cliente via POST
-    public void gravar(Lago lago, Amostra leitura);
+    void gravar(Lago lago, Amostra leitura);
 
     // Método para expor o mapa do banco de dados em memória
-    public Map<Lago, List<Amostra>> getBancoDeDados();
+    Map<Lago, List<Amostra>> getBancoDeDados();
 
     // Métodos de processamento do Servidor exigidos na Versão 1
-    public void imprimir();
+    void imprimir();
 
-    public Map<Lago, List<Amostra>> ordenar(TipoOrdenacao tipoOrdenacao);
+    int buscarTriosDePHNeutro();
 
-    public void buscarTriosDePHNeutro();
+    Map<Lago, List<Amostra>> ordenar(TipoOrdenacao tipoOrdenacao);
 
-    public void analisarQualidadeLagos();
+    void analisarQualidadeLagos();
 }

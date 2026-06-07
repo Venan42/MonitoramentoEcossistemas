@@ -51,9 +51,44 @@ public class OperacoesImpl implements Operacoes<Lago, Amostra> {
     }
 
     /**
+     * Complexidade: O(T^3) onde T é o total de amostras acumuladas (N * M)
+     * Justificativa: Existem 3 laços aninhados que percorrem a lista consolidada de todas as amostras
+     * do banco de dados para encontrar combinações de trios.
+     */
+    @Override
+    public int buscarTriosDePHNeutro() {
+        int contadorTrios = 0;
+        int t = bancoDeDados.size();
+        List<Amostra> todasAsAmostras = bancoDeDados.values().stream()
+                .flatMap(List::stream)
+                .toList();
+
+        // Pega a primeira amostra
+        for (int i = 0; i < t; i++) {
+            // Pega a segunda amostra
+            for (int j = i + 1; j < t; j++) {
+                // Pega a terceira amostra
+                for (int k = j + 1; k < t; k++) {
+
+                    double ph1 = todasAsAmostras.get(i).getValorPH();
+                    double ph2 = todasAsAmostras.get(j).getValorPH();
+                    double ph3 = todasAsAmostras.get(k).getValorPH();
+
+                    // Critério de neutralidade baseado na média ponderada/simples próxima de 7.0
+                    double media = (ph1 + ph2 + ph3) / 3.0;
+                    if (Math.abs(media - 7.0) < 0.1) {
+                        contadorTrios++;
+                    }
+                }
+            }
+        }
+        return contadorTrios;
+    }
+
+    /**
      * Complexidade: O(N * M log M)
-     * Justificativa: Para cada um dos N lagos do banco de dados, as M amostras internas são
-     * ordenadas utilizando o algoritmo Merge Sort (M log M).
+     * Justificativa: Para cada um dos N lagos, as M amostras são ordenadas utilizando
+     * o algoritmo Merge Sort (M log M).
      */
     @Override
     public Map<Lago, List<Amostra>> ordenar(TipoOrdenacao tipoOrdenacao) {
@@ -70,48 +105,6 @@ public class OperacoesImpl implements Operacoes<Lago, Amostra> {
         }
 
         return amostrasOrdenadas;
-    }
-
-    /**
-     * Complexidade: O(T^3) onde T é o total de amostras acumuladas (N * M)
-     * Justificativa: Existem 3 laços aninhados que percorrem a lista consolidada de todas as amostras
-     * do banco de dados para encontrar combinações de trios.
-     */
-    @Override
-    public void buscarTriosDePHNeutro() {
-        System.out.println("\n--- Busca trios de mistura neutra ---");
-        int contadorTrios = 0;
-
-        List<Amostra> listaAmostras = new ArrayList<>();
-        for (Map.Entry<Lago, List<Amostra>> entrada : bancoDeDados.entrySet()) {
-            listaAmostras.addAll(entrada.getValue());
-        }
-        int n = listaAmostras.size();
-
-        for (int i = 0; i < n - 2; i++) {
-            for (int j = i + 1; j < n - 1; j++) {
-                for (int k = j + 1; k < n; k++) {
-
-                    Amostra a1 = listaAmostras.get(i);
-                    Amostra a2 = listaAmostras.get(j);
-                    Amostra a3 = listaAmostras.get(k);
-
-                    if (a1.getLago().getId() != a2.getLago().getId() &&
-                            a1.getLago().getId() != a3.getLago().getId() &&
-                            a2.getLago().getId() != a3.getLago().getId()) {
-
-                        double mediaTrio = (a1.getValorPH() + a2.getValorPH() + a3.getValorPH()) / 3.0;
-
-                        if (mediaTrio >= 6.9 && mediaTrio <= 7.1) {
-                            contadorTrios++;
-                            System.out.printf("Lagos [%d, %d, %d] -> Média pH: %.2f\n",
-                                    a1.getLago().getId(), a2.getLago().getId(), a3.getLago().getId(), mediaTrio);
-                        }
-                    }
-                }
-            }
-        }
-        System.out.println("Total de trios de lagos com pH neutro encontrados: " + contadorTrios);
     }
 
     /**

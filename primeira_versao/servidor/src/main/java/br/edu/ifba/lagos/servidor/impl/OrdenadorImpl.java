@@ -2,7 +2,6 @@ package br.edu.ifba.lagos.servidor.impl;
 
 import br.edu.ifba.lagos.servidor.ordenador.Ordenador;
 import br.edu.ifba.lagos.servidor.ordenador.TipoOrdenacao;
-
 import java.util.ArrayList;
 import java.util.List;
 

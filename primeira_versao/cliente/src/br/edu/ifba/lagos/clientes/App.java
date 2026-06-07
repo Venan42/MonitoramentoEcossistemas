@@ -18,7 +18,7 @@ public class App {
             int id = i + 1;
 
             ClienteImpl cliente = new ClienteImpl();
-            cliente.configurar(new Lago(id, "lagia"), new SensoriamentoImpl());
+            cliente.configurar(new Lago(id, "Lago 1"), new SensoriamentoImpl());
 
             Thread processo = new Thread(cliente);
             processos.add(processo);
