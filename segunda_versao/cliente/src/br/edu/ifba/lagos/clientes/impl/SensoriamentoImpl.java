@@ -1,6 +1,7 @@
-package br.edu.ifba.lagos.impl;
+package br.edu.ifba.lagos.clientes.impl;
 
-import br.edu.ifba.lagos.sensoriamento.Sensoriamento;
+
+import br.edu.ifba.lagos.clientes.sensoriamento.Sensoriamento;
 
 import java.util.ArrayList;
 import java.util.List;
