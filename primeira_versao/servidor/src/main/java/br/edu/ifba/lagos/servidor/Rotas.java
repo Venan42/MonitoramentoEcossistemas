@@ -64,7 +64,7 @@ public class Rotas {
      */
     @GET
     @Path("imprimir")
-    public Response imprimirLagos() {
+    public Response imprimirAmostras() {
         getOperacoes().imprimir();
         return Response.ok("Relatório de dados brutos impresso no console do Servidor.", MediaType.TEXT_PLAIN).build();
     }

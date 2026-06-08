@@ -7,11 +7,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.net.URI;
 
 public class Servidor {
-
-    // Mantendo as constantes solicitadas no seu modelo
-    private static final int TOTAL_LAGOS = 10;
-    private static final int AMOSTRAS_POR_LAGO = 5;
-
     // URL base indicando que o servidor aceitará conexões de qualquer IP (0.0.0.0) na porta 8080
     private static final String BASE_URL = "http://0.0.0.0:8080/";
 
