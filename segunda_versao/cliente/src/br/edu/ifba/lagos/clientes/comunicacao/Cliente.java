@@ -1,5 +1,7 @@
 package br.edu.ifba.lagos.clientes.comunicacao;
 
+import java.util.List;
+
 import br.edu.ifba.lagos.clientes.sensoriamento.Sensoriamento;
 
 public interface Cliente<Lago, Amostra> {
@@ -9,5 +11,7 @@ public interface Cliente<Lago, Amostra> {
     Resultado enviar(Amostra leitura) throws Exception;
 
     Resultado enviar(int trios) throws Exception;
+
+    int buscarTriosPHNeutroLocal(List<Amostra> historico);
 
 }

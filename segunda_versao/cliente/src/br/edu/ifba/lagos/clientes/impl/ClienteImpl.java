@@ -156,6 +156,7 @@ public class ClienteImpl implements Cliente<Lago, Amostra>, Runnable {
      * todas as combinações temporais possíveis de amostras coletadas. Os índices controlados de forma
      * incremental (`i`, `i+1`, `j+1`) evitam colisões de leitura sem alterar a categoria cúbica do método.
      */
+    @Override
     private int buscarTriosPHNeutroLocal(List<Amostra> historico) {
         int contadorTrios = 0;
         int t = historico.size();

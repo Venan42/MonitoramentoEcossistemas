@@ -13,7 +13,7 @@ public class ClienteImpl implements Cliente<Lago, Amostra>, Runnable {
     // Constante que dita o limite fixo de envio por thread
     private static final int AMOSTRAS_POR_LAGO = 5;
 
-    private static final String URL_SERVIDOR = "http://172.12.171.74:8080";
+    private static final String URL_SERVIDOR = "http://localhost:8080";
     private static final String URL_LAGOS = URL_SERVIDOR + "/lagos/";
 
     private Lago lago = null;

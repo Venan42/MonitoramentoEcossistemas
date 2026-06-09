@@ -9,16 +9,18 @@ import java.nio.file.Paths;
 import java.security.SecureRandom;
 
 public class App {
-    private static final Path DIRETORIO_PRINCIPAL = Paths.get(System.getProperty("user.dir"));
+    private static final Path CAMINHO_PROJETO = Paths.get(System.getProperty("user.dir"));
+    private static final Path RAIZ = CAMINHO_PROJETO.getParent();
 
-    private static final Path CAMINHO_VIDEO = DIRETORIO_PRINCIPAL.resolve(Paths.get("segunda_versao", "encriptacao", "video", "JapanWalking.mp4")).normalize();
-    private static final Path CAMINHO_CHAVE_PUBLICA = DIRETORIO_PRINCIPAL.resolve(Paths.get("segunda_versao", "cliente", "chave", "ch_publica.chv")).normalize();
-    private static final Path CAMINHO_CHAVE_PRIVADA = DIRETORIO_PRINCIPAL.resolve(Paths.get("segunda_versao", "servidor", "chave", "ch_privada.chv")).normalize();
+    private static final Path CAMINHO_VIDEO = CAMINHO_PROJETO.resolve(Paths.get( "video", "JapanWalking.mp4")).normalize();
+    private static final Path CAMINHO_CHAVE_PUBLICA = RAIZ.resolve(Paths.get( "cliente", "chave", "ch_publica.chv")).normalize();
+    private static final Path CAMINHO_CHAVE_PRIVADA = RAIZ.resolve(Paths.get( "servidor", "chave", "ch_privada.chv")).normalize();
 
     private static final String ALGORITMO_DE_ENCRIPTACAO = "RSA";
     private static final int DESLOCAMENTO_MAXIMO = 100;
 
     public static void main(String[] args) throws Exception {
+        System.out.println("dir " + CAMINHO_PROJETO);
         // Garante que as pastas serão criadas
         CAMINHO_VIDEO.getParent().toFile().mkdirs();
         CAMINHO_CHAVE_PUBLICA.toFile().mkdirs();
