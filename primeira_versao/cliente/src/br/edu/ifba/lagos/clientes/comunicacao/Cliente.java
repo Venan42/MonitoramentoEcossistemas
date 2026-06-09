@@ -2,10 +2,10 @@ package br.edu.ifba.lagos.clientes.comunicacao;
 
 import br.edu.ifba.lagos.clientes.sensoriamento.Sensoriamento;
 
-public interface Cliente<Monitorado, Leitura> {
+public interface Cliente<Lago, Amostra> {
 
-    public void configurar(Monitorado monitorado, Sensoriamento<Leitura> sensoriamento);
+    public void configurar(Lago lago, Sensoriamento<Amostra> sensoriamento);
 
-    public Resultado enviar(Leitura leitura) throws Exception;
+    public Resultado enviar(Amostra amostra) throws Exception;
 
 }

@@ -9,16 +9,16 @@ import br.edu.ifba.lagos.clientes.impl.SensoriamentoImpl;
 
 public class App {
 
-    private static final int TOTAL_NOBREAKS = 10;
+    private static final int TOTAL_LAGOS = 10;
 
     public static void main(String[] args) throws Exception {
         List<Thread> processos = new ArrayList<>();
 
-        for (int i = 0; i < TOTAL_NOBREAKS; i++) {
+        for (int i = 0; i < TOTAL_LAGOS; i++) {
             int id = i + 1;
 
             ClienteImpl cliente = new ClienteImpl();
-            cliente.configurar(new Lago(id, "Lago 1"), new SensoriamentoImpl());
+            cliente.configurar(new Lago(id, "Lago" + id), new SensoriamentoImpl());
 
             Thread processo = new Thread(cliente);
             processos.add(processo);
